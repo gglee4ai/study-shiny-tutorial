@@ -1,50 +1,34 @@
 library(shiny)
 
-# Define UI for dataset viewer app ----
 ui <- fluidPage(
-  
-  # App title ----
-  titlePanel("Title panel"),
-  
-  # Sidebar layout with a input and output definitions ----
+  titlePanel("My Shiny App"),
   sidebarLayout(
-    
-    # Sidebar panel for inputs ----
-    sidebarPanel("sidebar panel", position = "right"),
-    # Main panel for displaying outputs ----
+    position = "left",
+    sidebarPanel(
+      h2("Installation"),
+      p("Shiny is available on CRAN, so you can install it in the usual way from your R console:"),
+      code('install.packages("shiny")'),
+      br(),
+      img(src = "rstudio.png", width = 200),
+      p("Shiny is a product of ", span("RStudio", style = "color: blue"))
+    ),
     mainPanel(
-              h6("Sixth level title", align = "center"),
-              h5("Fifth level title", align = "center"),
-              h4("Fourth level title", align = "center"),
-              h3("Third level title", align = "center"),
-              h2("Second level title", align = "center"),
-              h1("First level title", align = "center"),
+      h1("Introducing Shiny"),
+      p("Shiny is a new package from RStudio that makes it ", em("incredibly "), "easy to build interactive web applications with R."),
+      br(),
+      p("For an introduction and live examples, visit the ", tags$a("Shiny homepage.", href = "http://shiny.rstudio.com")),
+      br(),
+      h1("Featuers"),
+      tags$ul(
+        tags$li("Build useful web applications with only a few lines of code&mdash;no JavaScript required"),
+        tags$li("Shiny applications are automatically 'live' in the same way that ", strong("spreadsheets"), " are live. Outputs change instantly as users modify inputs, without requiring a reload of the browser.")
+      )
     )
   )
 )
 
 # Define server logic to summarize and view selected dataset ----
 server <- function(input, output) {
-  
-  # Return the requested dataset ----
-  datasetInput <- reactive({
-    switch(input$dataset,
-           "rock" = rock,
-           "pressure" = pressure,
-           "cars" = cars)
-  })
-  
-  # Generate a summary of the dataset ----
-  output$summary <- renderPrint({
-    dataset <- datasetInput()
-    summary(dataset)
-  })
-  
-  # Show the first "n" observations ----
-  output$view <- renderTable({
-    head(datasetInput(), n = input$obs)
-  })
-  
 }
 
 # Create Shiny app ----
